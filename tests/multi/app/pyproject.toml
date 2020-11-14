@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Martin Liu <martin.xs.liu@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+liba = {path = "../liba", develop = true}
+requests = {path = "vendor/requests-2.25.0.tar.gz"}
+responses = {url = "https://files.pythonhosted.org/packages/88/98/bf9e777a482ac076a6d75fad7d62b064f535244bf1771c3b2a7d41fd5920/responses-0.12.1.tar.gz"}
+# git dependencies are not supported. Use py_archive with a URL instead.
+# click = {git = "https://github.com/pallets/click.git"}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

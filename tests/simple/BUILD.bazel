@@ -1,0 +1,17 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+load("@simple_deps//:requirements.bzl", "requirement")
+
+py_library(
+    name = "simple",
+    srcs = ["simple.py"],
+    deps = [
+        requirement("arrow"),
+        requirement("pendulum"),
+    ],
+)
+
+py_test(
+    name = "simple_test",
+    srcs = ["simple_test.py"],
+    deps = [":simple"],
+)

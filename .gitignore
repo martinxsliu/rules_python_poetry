@@ -1,0 +1,7 @@
+bazel-*
+
+.venv
+*.egg-info
+
+# Poetry extracts vendored tarballs into this directory.
+tests/multi/app/vendor/unpacked

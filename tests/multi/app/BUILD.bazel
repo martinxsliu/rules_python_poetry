@@ -1,0 +1,20 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+py_library(
+    name = "app",
+    srcs = ["app/__init__.py"],
+    deps = [
+        "//tests/multi/liba",
+        "@multi_app_requests//:py_library",
+        "@multi_app_responses//:py_library",
+    ],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "app_test",
+    srcs = ["tests/test_app.py"],
+    main = "tests/test_app.py",
+    deps = [":app"],
+)

@@ -1,0 +1,20 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+load("@multi_liba_deps//:requirements.bzl", "requirement")
+
+py_library(
+    name = "liba",
+    srcs = ["liba/__init__.py"],
+    deps = [
+        "//tests/multi/libb",
+        requirement("pendulum"),
+    ],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "liba_test",
+    srcs = ["tests/test_liba.py"],
+    main = "tests/test_liba.py",
+    deps = [":liba"],
+)

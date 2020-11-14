@@ -1,0 +1,17 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+load("@multi_libb_deps//:requirements.bzl", "requirement")
+
+py_library(
+    name = "libb",
+    srcs = ["libb/__init__.py"],
+    deps = [requirement("arrow")],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "libb_test",
+    srcs = ["tests/test_libb.py"],
+    main = "tests/test_libb.py",
+    deps = [":libb"],
+)

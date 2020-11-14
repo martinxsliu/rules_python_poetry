@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+
+import argparse
+import sys
+import os
+
+lib = os.path.normpath(os.path.join(os.path.realpath(__file__), "..", "src"))
+vendors = os.path.join(lib, "poetry", "_vendor")
+current_vendors = os.path.join(
+    vendors, "py{}".format(".".join(str(v) for v in sys.version_info[:2]))
+)
+
+sys.path.insert(0, lib)
+sys.path.insert(0, current_vendors)
+
+
+def strip_pyproject_toml(input, output):
+    with open(input, "r") as f:
+        document = tomlkit.parse(f.read())
+
+    try:
+        strip_path_dependencies(document["tool"]["poetry"]["dependencies"])
+    except tomlkit.exceptions.NonExistentKey:
+        pass
+
+    try:
+        strip_path_dependencies(document["tool"]["poetry"]["dev-dependencies"])
+    except tomlkit.exceptions.NonExistentKey:
+        pass
+
+    with open(output, "w") as f:
+        f.write(tomlkit.dumps(document))
+
+
+def strip_path_dependencies(dependencies):
+    for name, config in dependencies.items():
+        if isinstance(config, dict) and "path" in config:
+            del dependencies[name]
+
+
+def strip_poetry_lock(input, output):
+    with open(input, "r") as f:
+        document = tomlkit.parse(f.read())
+
+    stripped = []
+    for package in document.get("package", []):
+        if "source" in package and package["source"].get("type") in ("directory", "file"):
+            continue
+        stripped.append(package)
+    document["package"] = stripped
+
+    with open(output, "w") as f:
+        f.write(tomlkit.dumps(document))
+
+
+if __name__ == "__main__":
+    import tomlkit
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--file", help="input file")
+    parser.add_argument("--output", help="output file")
+    parser.add_argument("--format", help="either 'pyproject.toml' or 'poetry.lock'")
+    args = parser.parse_args()
+
+    if args.format == "pyproject.toml":
+        strip_pyproject_toml(args.file, args.output)
+    elif args.format == "poetry.lock":
+        strip_poetry_lock(args.file, args.output)
+    else:
+        raise ValueError(f"unknown file format: {args.format}")
