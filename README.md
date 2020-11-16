@@ -18,8 +18,9 @@ http_archive(
 
 http_archive(
     name = "rules_python_poetry",
-    url = "TODO",
-    sha256 = "TODO",
+    url = "https://github.com/martinxsliu/rules_python_poetry/archive/v0.1.0.tar.gz",
+    sha256 = "8f0abc58a8fcf75341b4615c6b7d9bb254119577629f45c2b1bb60f60f31b301",
+    strip_prefix = "rules_python_poetry-0.1.0"
 )
 
 load("@rules_python_poetry//:defs.bzl", "poetry_install_toolchain", "poetry_install")
