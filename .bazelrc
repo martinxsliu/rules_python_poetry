@@ -1,0 +1,10 @@
+# Continue as much as possible after an error. While the target that failed and
+# those that depend on it cannot be analyzed, other prerequisites of these
+# targets can be.
+build --keep_going
+
+# Do not automatically create __init__.py files in the runfiles of Python targets.
+build --incompatible_default_to_explicit_init_py
+
+# By default, output from failing tests are logged to a file. This prints the output.
+test --test_output=errors
