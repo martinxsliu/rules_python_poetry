@@ -1,5 +1,6 @@
 load("@rules_python//python:defs.bzl", "py_library", "py_test")
 load("@multi_liba_deps//:requirements.bzl", "requirement")
+load("//internal:package.bzl", "poetry_package")
 
 py_library(
     name = "liba",
@@ -8,6 +9,7 @@ py_library(
         "//tests/multi/libb",
         requirement("pendulum"),
     ],
+    data = ["pyproject.toml"],
     imports = ["."],
     visibility = ["//visibility:public"],
 )
@@ -16,5 +18,12 @@ py_test(
     name = "liba_test",
     srcs = ["tests/test_liba.py"],
     main = "tests/test_liba.py",
+    deps = [":liba"],
+)
+
+poetry_package(
+    name = "liba_package",
+    pyproject_toml = "pyproject.toml",
+    poetry_lock = "poetry.lock",
     deps = [":liba"],
 )

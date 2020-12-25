@@ -1,10 +1,13 @@
 load("@rules_python//python:defs.bzl", "py_library", "py_test")
 load("@multi_libb_deps//:requirements.bzl", "requirement")
+load("//internal:package.bzl", "poetry_package")
+load("//internal:publish.bzl", "poetry_publish")
 
 py_library(
     name = "libb",
     srcs = ["libb/__init__.py"],
     deps = [requirement("arrow")],
+    data = ["pyproject.toml"],
     imports = ["."],
     visibility = ["//visibility:public"],
 )
@@ -14,4 +17,16 @@ py_test(
     srcs = ["tests/test_libb.py"],
     main = "tests/test_libb.py",
     deps = [":libb"],
+)
+
+poetry_package(
+    name = "libb_package",
+    pyproject_toml = "pyproject.toml",
+    poetry_lock = "poetry.lock",
+    deps = [":libb"],
+)
+
+poetry_publish(
+    name = "libb_publish",
+    package = ":libb_package",
 )
