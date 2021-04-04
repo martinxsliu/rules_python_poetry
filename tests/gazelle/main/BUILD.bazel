@@ -1,0 +1,38 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+
+py_binary(
+    name = "main",
+    srcs = ["__main__.py"],
+    main = "__main__.py",
+    visibility = ["//visibility:public"],
+    deps = [":main_init"],
+)
+
+py_library(
+    name = "main_init",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "bar_py",
+    srcs = ["bar.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "foo_py",
+    srcs = ["foo.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":bar_py",
+        "//tests/gazelle/a_package",
+        "//tests/gazelle/b_package",
+        "//tests/gazelle/b_package:b_py",
+        "//tests/gazelle/b_package/b2",
+        "//tests/gazelle/b_package/b2/b3",
+        "//tests/gazelle/b_package/b2/b3:b3_py",
+        "//tests/gazelle/d_namespace:d_py",
+        "@pypi__third_party//:lib",
+    ],
+)

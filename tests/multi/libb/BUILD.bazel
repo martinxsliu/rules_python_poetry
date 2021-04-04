@@ -6,10 +6,10 @@ load("//internal:publish.bzl", "poetry_publish")
 py_library(
     name = "libb",
     srcs = ["libb/__init__.py"],
-    deps = [requirement("arrow")],
     data = ["pyproject.toml"],
     imports = ["."],
     visibility = ["//visibility:public"],
+    deps = [requirement("arrow")],
 )
 
 py_test(
@@ -21,8 +21,8 @@ py_test(
 
 poetry_package(
     name = "libb_package",
-    pyproject_toml = "pyproject.toml",
     poetry_lock = "poetry.lock",
+    pyproject_toml = "pyproject.toml",
     deps = [":libb"],
 )
 

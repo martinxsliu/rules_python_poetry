@@ -1,0 +1,29 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+# gazelle:python_test_mode package
+
+py_library(
+    name = "package_mode",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "conftest_py",
+    srcs = ["conftest.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "package_mode_test",
+    srcs = [
+        "b_test.py",
+        "c_tests.py",
+        "test_a.py",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":conftest_py",
+        "//tests/gazelle/tests:conftest_py",
+    ],
+)

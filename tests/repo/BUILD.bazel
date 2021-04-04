@@ -1,0 +1,28 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
+
+py_binary(
+    name = "ipython",
+    srcs = ["ipython_runner.py"],
+    main = "ipython_runner.py",
+    deps = [
+        "@pypi__django//:lib",
+        "@pypi__ipython//:lib",
+        "@pypi__pandas//:lib",
+        "@pypi__pendulum//:lib",
+    ],
+)
+
+py_library(
+    name = "repo",
+    srcs = ["repo.py"],
+    deps = [
+        "@pypi__pandas//:lib",
+        "@pypi__pendulum//:lib",
+    ],
+)
+
+py_test(
+    name = "repo_test",
+    srcs = ["repo_test.py"],
+    deps = [":repo"],
+)

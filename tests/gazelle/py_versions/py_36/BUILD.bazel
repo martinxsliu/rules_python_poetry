@@ -1,0 +1,10 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
+# gazelle:python_version 3.6
+
+py_library(
+    name = "py_36",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+    deps = ["@pypi__dataclasses//:lib"],
+)

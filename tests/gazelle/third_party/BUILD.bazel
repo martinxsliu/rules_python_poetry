@@ -1,0 +1,15 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
+# gazelle:python_third_party_import sklearn scikit-learn
+
+py_library(
+    name = "third_party",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@pypi__numpy//:lib",
+        "@pypi__pandas//:lib",
+        "@pypi__requests//:lib",
+        "@pypi__scikit_learn//:lib",
+    ],
+)

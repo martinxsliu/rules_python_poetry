@@ -1,0 +1,7 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
+py_library(
+    name = "conftest_py",
+    srcs = ["conftest.py"],
+    visibility = ["//visibility:public"],
+)

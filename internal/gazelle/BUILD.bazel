@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "gazelle",
+    srcs = [
+        "config.go",
+        "fileinfo.go",
+        "generate.go",
+        "kinds.go",
+        "language.go",
+        "poetry.go",
+        "repo.go",
+        "resolve.go",
+    ],
+    importpath = "github.com/martinxsliu/rules_python_poetry/internal/gazelle",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//internal/gazelle/stdlib",
+        "//internal/gazelle/version",
+        "@bazel_gazelle//config:go_default_library",
+        "@bazel_gazelle//flag:go_default_library",
+        "@bazel_gazelle//label:go_default_library",
+        "@bazel_gazelle//language:go_default_library",
+        "@bazel_gazelle//repo:go_default_library",
+        "@bazel_gazelle//resolve:go_default_library",
+        "@bazel_gazelle//rule:go_default_library",
+        "@com_github_pelletier_go_toml//:go_default_library",
+    ],
+)

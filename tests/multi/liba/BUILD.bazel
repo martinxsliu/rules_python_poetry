@@ -5,13 +5,13 @@ load("//internal:package.bzl", "poetry_package")
 py_library(
     name = "liba",
     srcs = ["liba/__init__.py"],
+    data = ["pyproject.toml"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
     deps = [
         "//tests/multi/libb",
         requirement("pendulum"),
     ],
-    data = ["pyproject.toml"],
-    imports = ["."],
-    visibility = ["//visibility:public"],
 )
 
 py_test(
@@ -23,7 +23,7 @@ py_test(
 
 poetry_package(
     name = "liba_package",
-    pyproject_toml = "pyproject.toml",
     poetry_lock = "poetry.lock",
+    pyproject_toml = "pyproject.toml",
     deps = [":liba"],
 )

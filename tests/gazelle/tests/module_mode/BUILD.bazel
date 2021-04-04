@@ -1,0 +1,43 @@
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+py_library(
+    name = "module_mode",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "conftest_py",
+    srcs = ["conftest.py"],
+    visibility = ["//visibility:public"],
+)
+
+py_test(
+    name = "b_test_py",
+    srcs = ["b_test.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":conftest_py",
+        "//tests/gazelle/tests:conftest_py",
+    ],
+)
+
+py_test(
+    name = "c_tests_py",
+    srcs = ["c_tests.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":conftest_py",
+        "//tests/gazelle/tests:conftest_py",
+    ],
+)
+
+py_test(
+    name = "test_a_py",
+    srcs = ["test_a.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":conftest_py",
+        "//tests/gazelle/tests:conftest_py",
+    ],
+)

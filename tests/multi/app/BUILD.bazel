@@ -4,6 +4,9 @@ load("@multi_app_deps//:requirements.bzl", "requirement")
 py_library(
     name = "app",
     srcs = ["app/__init__.py"],
+    data = ["pyproject.toml"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
     deps = [
         "//tests/multi/liba",
         "@multi_app_requests//:py_library",
@@ -15,9 +18,6 @@ py_library(
         requirement("idna"),
         requirement("urllib3"),
     ],
-    data = ["pyproject.toml"],
-    imports = ["."],
-    visibility = ["//visibility:public"],
 )
 
 py_test(

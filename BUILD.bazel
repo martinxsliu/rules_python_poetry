@@ -1,0 +1,22 @@
+load("@bazel_gazelle//:def.bzl", "DEFAULT_LANGUAGES", "gazelle", "gazelle_binary")
+
+gazelle_binary(
+    name = "gazelle_binary",
+    languages = DEFAULT_LANGUAGES + [
+        "//internal/gazelle",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# gazelle:prefix github.com/martinxsliu/rules_python_poetry
+
+# gazelle:exclude internal
+# gazelle:exclude tests/multi
+# gazelle:exclude tests/repo
+# gazelle:exclude tests/simple
+
+gazelle(
+    name = "gazelle",
+    gazelle = ":gazelle_binary",
+    visibility = ["//visibility:public"],
+)

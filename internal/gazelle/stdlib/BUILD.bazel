@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@rules_python//python:defs.bzl", "py_binary")
+
+py_binary(
+    name = "gen",
+    srcs = ["gen.py"],
+    deps = ["@pypi__stdlib_list//:lib"],
+)
+
+go_library(
+    name = "stdlib",
+    srcs = ["stdlib.go"],
+    deps = ["//internal/gazelle/version"],
+    importpath = "github.com/martinxsliu/rules_python_poetry/internal/gazelle/stdlib",
+    visibility = ["//internal/gazelle:__subpackages__"],
+)

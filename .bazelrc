@@ -8,3 +8,6 @@ build --incompatible_default_to_explicit_init_py
 
 # By default, output from failing tests are logged to a file. This prints the output.
 test --test_output=errors
+
+# User specific configurations
+try-import .bazelrc-personal

@@ -1,4 +1,5 @@
 bazel-*
+.bazelrc-personal
 
 .venv
 *.egg-info
