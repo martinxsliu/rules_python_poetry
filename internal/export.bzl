@@ -1,14 +1,13 @@
 def _poetry_export_impl(repository_ctx):
-    poetry_runner_py = repository_ctx.path(Label("@poetry_toolchain//:poetry_runner.py"))
-    strip_dependencies_py = repository_ctx.path(Label("@poetry_toolchain//:strip_dependencies.py"))
+    poetry_runner = repository_ctx.path(Label("@poetry_toolchain//:bin/poetry"))
+    strip_dependencies = repository_ctx.path(Label("@poetry_toolchain//:bin/strip_dependencies"))
 
     repository_ctx.symlink(repository_ctx.attr.pyproject_toml, repository_ctx.path("pyproject.toml.in"))
     repository_ctx.symlink(repository_ctx.attr.poetry_lock, repository_ctx.path("poetry.lock.in"))
 
     for format in ["pyproject.toml", "poetry.lock"]:
         result = repository_ctx.execute([
-            "python",
-            strip_dependencies_py,
+            strip_dependencies,
             "--file",
             repository_ctx.path(format + ".in"),
             "--output",
@@ -20,8 +19,7 @@ def _poetry_export_impl(repository_ctx):
             fail("Poetry strip dependencies failed:\n%s\n%s" % (result.stdout, result.stderr))
 
     args = [
-        "python",
-        poetry_runner_py,
+        poetry_runner,
         "export",
         "--without-hashes",
         "--format",

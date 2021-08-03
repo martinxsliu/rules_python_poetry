@@ -10,7 +10,10 @@ http_archive(
 
 load("//:defs.bzl", "poetry_install_toolchain", "poetry_install", "py_archive")
 
-poetry_install_toolchain(poetry_version = "1.1.4")
+poetry_install_toolchain(
+    poetry_version = "1.2.0a2",
+    plugins = [],
+)
 
 # Simple test
 

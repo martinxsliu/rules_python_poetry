@@ -1,10 +1,11 @@
+#!{HASH_BANG}
 # -*- coding: utf-8 -*-
 
 import argparse
 import sys
 import os
 
-lib = os.path.normpath(os.path.join(os.path.realpath(__file__), "..", "src"))
+lib = os.path.normpath(os.path.join(os.path.realpath(__file__), "../..", "src"))
 vendors = os.path.join(lib, "poetry", "_vendor")
 current_vendors = os.path.join(
     vendors, "py{}".format(".".join(str(v) for v in sys.version_info[:2]))
@@ -18,24 +19,23 @@ def strip_pyproject_toml(input, output):
     with open(input, "r") as f:
         document = tomlkit.parse(f.read())
 
-    try:
-        strip_path_dependencies(document["tool"]["poetry"]["dependencies"])
-    except tomlkit.exceptions.NonExistentKey:
-        pass
-
-    try:
-        strip_path_dependencies(document["tool"]["poetry"]["dev-dependencies"])
-    except tomlkit.exceptions.NonExistentKey:
-        pass
+    for dep_key in ("dependencies", "dev-dependencies"):
+        dependencies = document["tool"]["poetry"][dep_key]
+        try:
+            document["tool"]["poetry"][dep_key] = strip_path_dependencies(dependencies)
+        except tomlkit.exceptions.NonExistentKey:
+            pass
 
     with open(output, "w") as f:
         f.write(tomlkit.dumps(document))
 
 
 def strip_path_dependencies(dependencies):
+    stripped = {}
     for name, config in dependencies.items():
-        if isinstance(config, dict) and "path" in config:
-            del dependencies[name]
+        if not isinstance(config, dict) or "path" not in config:
+            stripped[name] = config
+    return stripped
 
 
 def strip_poetry_lock(input, output):
