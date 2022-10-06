@@ -115,7 +115,7 @@ def _legacy_install(repository_ctx):
         "bin/strip_dependencies",
         repository_ctx.attr._strip_dependencies_py_tmpl,
         substitutions = {
-            "{HASH_BANG}": "/usr/bin/env python",
+            "{HASH_BANG}": "/usr/bin/env python3",
         },
         executable = True,
     )
